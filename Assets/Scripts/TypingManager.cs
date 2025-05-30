@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.Serialization;
 
 
 public class TypingManager : MonoBehaviour
 {
 
-    public SpellBookManager SpellBookManager;
+    public SpellBookManager spellBookManager;
 
     
     //Sub to event on enable 
@@ -33,13 +33,13 @@ public class TypingManager : MonoBehaviour
         switch (c)
         {
             case '\b':
-                SpellBookManager.DeleteChar();
+                spellBookManager.DeleteChar();
                 break;
             case '\r':
-                SpellBookManager.GenerateNewSpell();
+                spellBookManager.GenerateNewSpell();
                 break;
             default:
-                SpellBookManager.CheckChar(c);
+                spellBookManager.CheckChar(c);
                 break;
         }
 
