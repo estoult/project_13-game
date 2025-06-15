@@ -19,17 +19,25 @@ public class SpellBookManager : MonoBehaviour
     private readonly List<SpellLetter> _currentSpell = new ();
     private int _spellIndex = 0;
     private float _score = 0f;
+    private GameObject _enemyTargeted;
+    
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
        GenerateNewSpell();
+       _enemyTargeted = GameObject.FindWithTag("Enemy");
     }
     
     public void GenerateNewSpell()
     {
         _score = CalculateScore(_currentSpell);
+        if (_score > 0)
+        {
+            SpellLaunched();
+        }
+            
         _currentSpell.Clear();
         var word = _spellsWording[Random.Range(0, _spellsWording.Count)];
         foreach (var c in word)
@@ -112,4 +120,13 @@ public class SpellBookManager : MonoBehaviour
         Debug.Log("Spell score is: "+(finalScore / _currentSpell.Count) * 100);
         return (finalScore / _currentSpell.Count) * 100;
     }
+
+    private void SpellLaunched()
+    {
+        Enemy enemy_script = _enemyTargeted.GetComponent<Enemy>();
+        enemy_script.OnTakeDamage(_score);
+        
+        
+    }
+    
 }
