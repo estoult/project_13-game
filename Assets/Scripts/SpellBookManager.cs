@@ -3,6 +3,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Spells;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -15,7 +16,8 @@ public class SpellBookManager : MonoBehaviour
     public AudioClip soundFail;
     public AudioClip soundCast;
     
-    private readonly List<string> _spellsWording = new() {"FEUER","BLASTO","KOTORO","PROTECTIO" };
+    //private readonly List<string> _spellsWording = new() {"FEUER","BLASTO","KOTORO","PROTECTIO" };
+    public List<SpellDataSO> spellData = new List<SpellDataSO>();
     private readonly List<SpellLetter> _currentSpell = new ();
     private int _spellIndex = 0;
     private float _score = 0f;
@@ -39,18 +41,20 @@ public class SpellBookManager : MonoBehaviour
         }
             
         _currentSpell.Clear();
-        var word = _spellsWording[Random.Range(0, _spellsWording.Count)];
+        var word = spellData[Random.Range(0, spellData.Count)].spellName;
+        //var word = _spellsWording[Random.Range(0, _spellsWording.Count)];
         foreach (var c in word)
         {
             _currentSpell.Add(new SpellLetter(c));
         }
-
+        Debug.Log(word);
         _spellIndex = 0;
         UpdateDisplay();
     }
     
     public void CheckChar(char c)
     {
+        
         if (_spellIndex >= _currentSpell.Count)
         {
             GenerateNewSpell();
@@ -64,6 +68,7 @@ public class SpellBookManager : MonoBehaviour
             letter.State = LetterState.Correct;
             _currentSpell[_spellIndex] = letter;
             audioSource.PlayOneShot(soundSucess);
+            Debug.Log($"lettre tapé {c} attendu {letter.Character}");
         }
         else
         {
@@ -71,7 +76,9 @@ public class SpellBookManager : MonoBehaviour
             letter.State = LetterState.Incorrect;
             _currentSpell[_spellIndex] = letter;
             audioSource.PlayOneShot(soundSucess);
+            Debug.Log($"lettre tapé {c} attendu {letter.Character}");
         }
+        
         _spellIndex++;
         UpdateDisplay();
     }
