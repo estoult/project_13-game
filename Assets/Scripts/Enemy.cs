@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
         {
             OnDeath();
         }
-        Debug.Log($"Damage received { dmg } I still have { _currentHealth } hp");
+        //Debug.Log($"Damage received { dmg } I still have { _currentHealth } hp");
     }
 
     private void OnDeath()
@@ -78,6 +78,6 @@ public class Enemy : MonoBehaviour
         // make it attack someone
         _player.TakeDamage(attackDamage);
         //_playerHealth.TakeDamage(attackDamage);
-        Debug.Log($"Enemy dealt {attackDamage}");
+        //Debug.Log($"Enemy dealt {attackDamage}");
     }
 }
